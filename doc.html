@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deadlock Concepts - Interactive Learning Platform</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>Deadlock Concepts</h1>
+            <p class="header-subtitle">Interactive Learning Platform for Operating Systems</p>
+        </header>
+
+        <!-- Navigation -->
+        <nav class="nav-tabs">
+            <button class="nav-tab active" data-tab="overview">Overview</button>
+            <button class="nav-tab" data-tab="scenarios">Classic Scenarios</button>
+            <button class="nav-tab" data-tab="rag">RAG Visualizer</button>
+            <button class="nav-tab" data-tab="banker">Banker's Algorithm</button>
+        </nav>
+
+        <!-- Tab Content -->
+        <div class="tab-content">
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-panel active">
+                <div class="overview-grid">
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>What is Deadlock?</h3>
+                            <p>A deadlock is a situation where two or more processes are unable to proceed because each is waiting for the other to release a resource.</p>
+                            <p>This interactive platform helps you understand deadlock concepts through visual demonstrations and hands-on experimentation.</p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card__body">
+                            <h3>Necessary Conditions</h3>
+                            <div class="conditions-list">
+                                <div class="condition-item">
+                                    <div class="condition-icon">🔒</div>
+                                    <div>
+                                        <strong>Mutual Exclusion</strong>
+                                        <p>Only one process can use a resource at a time</p>
+                                    </div>
+                                </div>
+                                <div class="condition-item">
+                                    <div class="condition-icon">⏳</div>
+                                    <div>
+                                        <strong>Hold and Wait</strong>
+                                        <p>Process holds resources while waiting for others</p>
+                                    </div>
+                                </div>
+                                <div class="condition-item">
+                                    <div class="condition-icon">🚫</div>
+                                    <div>
+                                        <strong>No Preemption</strong>
+                                        <p>Resources cannot be forcibly taken from processes</p>
+                                    </div>
+                                </div>
+                                <div class="condition-item">
+                                    <div class="condition-icon">🔄</div>
+                                    <div>
+                                        <strong>Circular Wait</strong>
+                                        <p>Processes wait for each other in a circular chain</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Classic Scenarios Tab -->
+            <div id="scenarios" class="tab-panel hidden">
+                <div class="scenario-controls">
+                    <select id="scenario-select" class="form-control">
+                        <option value="two-process">Two Process Deadlock</option>
+                        <option value="dining-philosophers">Dining Philosophers</option>
+                    </select>
+                    <div class="control-buttons">
+                        <button id="play-btn" class="btn btn--primary">Play</button>
+                        <button id="pause-btn" class="btn btn--secondary">Pause</button>
+                        <button id="reset-btn" class="btn btn--outline">Reset</button>
+                    </div>
+                </div>
+
+                <div class="scenario-content">
+                    <div class="scenario-visual">
+                        <canvas id="scenario-canvas" width="600" height="400"></canvas>
+                    </div>
+                    <div class="scenario-info">
+                        <div class="card">
+                            <div class="card__body">
+                                <h4 id="scenario-title">Two Process Deadlock</h4>
+                                <p id="scenario-description">Classic example with two processes and two resources</p>
+                                <div id="scenario-steps" class="steps-list"></div>
+                                <div id="scenario-status" class="status-indicator"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RAG Visualizer Tab -->
+            <div id="rag" class="tab-panel hidden">
+                <div class="rag-controls">
+                    <div class="control-group">
+                        <button id="add-process-btn" class="btn btn--primary">Add Process</button>
+                        <button id="add-resource-btn" class="btn btn--primary">Add Resource</button>
+                        <button id="clear-rag-btn" class="btn btn--outline">Clear Graph</button>
+                    </div>
+                    <div class="detection-status">
+                        <div id="cycle-status" class="status status--info">No Cycle Detected</div>
+                    </div>
+                </div>
+
+                <div class="rag-content">
+                    <div class="rag-visual">
+                        <canvas id="rag-canvas" width="700" height="500"></canvas>
+                    </div>
+                    <div class="rag-info">
+                        <div class="card">
+                            <div class="card__body">
+                                <h4>Resource Allocation Graph</h4>
+                                <p>Click to add processes (circles) and resources (squares). Click between them to create edges.</p>
+                                <div class="legend">
+                                    <div class="legend-item">
+                                        <div class="legend-process"></div>
+                                        <span>Process</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-resource"></div>
+                                        <span>Resource</span>
+                                    </div>
+                                    <div class="legend-item">
+                                        <div class="legend-edge"></div>
+                                        <span>Allocation/Request</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Banker's Algorithm Tab -->
+            <div id="banker" class="tab-panel hidden">
+                <div class="banker-controls">
+                    <div class="matrix-inputs">
+                        <div class="input-group">
+                            <label class="form-label">Processes:</label>
+                            <input type="number" id="num-processes" class="form-control" value="5" min="1" max="10">
+                        </div>
+                        <div class="input-group">
+                            <label class="form-label">Resources:</label>
+                            <input type="number" id="num-resources" class="form-control" value="3" min="1" max="5">
+                        </div>
+                        <button id="generate-matrices-btn" class="btn btn--primary">Generate Matrices</button>
+                        <button id="run-banker-btn" class="btn btn--secondary">Run Algorithm</button>
+                    </div>
+                </div>
+
+                <div class="banker-content">
+                    <div class="matrices-container">
+                        <div class="matrix-section">
+                            <h4>Allocation Matrix</h4>
+                            <div id="allocation-matrix" class="matrix-display"></div>
+                        </div>
+                        <div class="matrix-section">
+                            <h4>Max Matrix</h4>
+                            <div id="max-matrix" class="matrix-display"></div>
+                        </div>
+                        <div class="matrix-section">
+                            <h4>Available Resources</h4>
+                            <div id="available-resources" class="matrix-display"></div>
+                        </div>
+                    </div>
+                    <div class="banker-results">
+                        <div class="card">
+                            <div class="card__body">
+                                <h4>Safety Analysis</h4>
+                                <div id="safety-result" class="safety-status"></div>
+                                <div id="safe-sequence" class="sequence-display"></div>
+                                <div id="banker-steps" class="steps-display"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
